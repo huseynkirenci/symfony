@@ -1,0 +1,14 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        The Current message is:
+    </div>
+    <div>
+        <b> {{message.message}} </b>
+    </div>
+    <div>
+        {{ include('hello/_message.html.twig', {message:message})}}
+    </div>
+{% endblock %}
