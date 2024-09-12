@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Deneme;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,8 +16,10 @@ class HelloController extends AbstractController
         ['message' => 'Bye!', 'created' => '2023/08/10']
     ];
     #[Route('/{limit?3}', name: 'app_index')]
-    public function index(int $limit): Response
+    public function index(int $limit,EntityManagerInterface $entityManager): Response
     {
+        //$a = $entityManager->getRepository(Deneme::class)->findAll();
+        
         return $this->render(
             'hello/index.html.twig', 
             [
