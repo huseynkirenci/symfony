@@ -1,6 +1,6 @@
-# Symfony 6 & Docker Projeleri
+# Symfony 7 & Docker Projeleri
 
-Bu proje, Symfony 6 ve Docker kullanarak geliştirdiğim bir uygulamadır. Takip ettiğim kurs boyunca adım adım öğrendiklerimi uygulayarak projeyi GitHub'da paylaşıyorum. Proje hala geliştirilme aşamasında ve her aşamada yeni özellikler eklemeye devam ediyorum.
+Bu proje, Symfony 7 ve Docker kullanarak geliştirdiğim bir uygulamadır. Takip ettiğim kurs boyunca adım adım öğrendiklerimi uygulayarak projeyi GitHub'da paylaşıyorum. Proje hala geliştirilme aşamasında ve her aşamada yeni özellikler eklemeye devam ediyorum.
 
 ## Şu ana kadar yapılanlar:
 
