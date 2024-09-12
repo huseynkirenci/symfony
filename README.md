@@ -4,13 +4,13 @@ Bu proje, Symfony 7 ve Docker kullanarak geliştirdiğim bir uygulamadır. Takip
 
 ## Şu ana kadar yapılanlar:
 
-1. **Symfony 6 kurulumu**: Symfony framework'ü ile projeyi başlattım.
+1. **Symfony 7 kurulumu**: Symfony framework'ü ile projeyi başlattım.
 2. **Docker ile entegrasyon**: Uygulamayı Docker üzerinde çalışacak şekilde yapılandırdım, tüm bağımlılıklar ve servisler Docker konteynerleriyle yönetiliyor.
 3. **Veritabanı Bağlantısı**: Adminer aracılığıyla veritabanı tablolarını görüntüledim.
 4. **Gelecek adımlar**: Varlıklar oluşturarak veri tablosuna veri ekleyeceğim.
 
 ### Kullanılan Teknolojiler:
-- Symfony 6
+- Symfony 7
 - Docker
 - Adminer (Veritabanı yönetimi)
 
