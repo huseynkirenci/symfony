@@ -15,7 +15,7 @@ class HelloController extends AbstractController
         ['message' => 'Hi', 'created' => '2024/07/10'],
         ['message' => 'Bye!', 'created' => '2023/08/10']
     ];
-    #[Route('/{limit?3}', name: 'app_index')]
+    #[Route('/{limit<\d+>?3}', name: 'app_index')]
     public function index(int $limit,EntityManagerInterface $entityManager): Response
     {
         //$a = $entityManager->getRepository(Deneme::class)->findAll();
