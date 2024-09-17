@@ -20,6 +20,10 @@ class MicroPost
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $created = null;
 
+    // Yeni text alanı
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $text = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -33,7 +37,6 @@ class MicroPost
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -45,7 +48,18 @@ class MicroPost
     public function setCreated(\DateTimeInterface $created): static
     {
         $this->created = $created;
+        return $this;
+    }
 
+    // Yeni eklenen text alanı için getter ve setter
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(?string $text): static
+    {
+        $this->text = $text;
         return $this;
     }
 }
