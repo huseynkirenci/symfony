@@ -31,11 +31,10 @@ class MicroPostController extends AbstractController
         ]);
     }
 
-    #[Route('/micro-post/add', name: 'app_micro_post_add', priority: 2)]
-    public function add(Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
+    #[Route('/micro-post/{post}/edit', name: 'app_micro_post_edit')]
+    public function edit(MicroPost $post ,Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
     {
-        $microPost = new MicroPost();
-        $form = $this->createFormBuilder($microPost)
+        $form = $this->createFormBuilder($post)
             ->add('title')
             ->add('text')
             ->getForm();
@@ -43,7 +42,6 @@ class MicroPostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $form -> getData();
-            $post-> setCreated(new DateTime());
             $entityManager->persist($post);
             $entityManager->flush();
 
