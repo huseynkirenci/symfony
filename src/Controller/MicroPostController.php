@@ -30,6 +30,34 @@ class MicroPostController extends AbstractController
             'post' => $post,
         ]);
     }
+    
+    #[Route('/micro-post/add', name: 'app_micro_post_add', priority: 2)]
+    public function add(Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
+    {
+        $microPost = new MicroPost();
+        $form = $this->createFormBuilder($microPost)
+            ->add('title')
+            ->add('text')
+            ->getForm();
+        $form -> handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $form -> getData();
+            $post-> setCreated(new DateTime());
+            $entityManager->persist($post);
+            $entityManager->flush();
+
+            // Add a flash, Bu kısım mesaj döndürcek başarılı diye ve yalnızca bir sefer görüntülenir.
+            $this -> addFlash('success', "Your micro post have been added");
+            return $this-> redirectToRoute('app_micro_post');
+        }
+        return $this->render(
+            'micro_post/add.html.twig',
+            [
+                'form' => $form
+            ]
+        );
+    }
 
     #[Route('/micro-post/{post}/edit', name: 'app_micro_post_edit')]
     public function edit(MicroPost $post ,Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
@@ -46,7 +74,7 @@ class MicroPostController extends AbstractController
             $entityManager->flush();
 
             // Add a flash, Bu kısım mesaj döndürcek başarılı diye ve yalnızca bir sefer görüntülenir.
-            $this -> addFlash('success', "Your micro post have been added");
+            $this -> addFlash('success', "Your micro post have been updated");
             return $this-> redirectToRoute('app_micro_post');
 
         }
