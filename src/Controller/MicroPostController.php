@@ -47,6 +47,11 @@ class MicroPostController extends AbstractController
             $post-> setCreated(new DateTime());
             $entityManager->persist($post);
             $entityManager->flush();
+
+            // Add a flash, Bu kısım mesaj döndürcek başarılı diye ve yalnızca bir sefer görüntülenir.
+            $this -> addFlash('success', "Your micro post have been added");
+            return $this-> redirectToRoute('app_micro_post');
+
         }
 
         return $this->render(
