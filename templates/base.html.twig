@@ -35,14 +35,12 @@ darkMode: 'class'
 				</div>
 			</div>
 		</div>
-
 		<div class="w-full md:w-2/3 mx-auto">
 			{% for message in app.flashes('success') %}
 				<div class="rounded-md p-2 border-green-300 bg-green-50 border dark:border-green-600 dark:bg-700 dark:text-white mb-4">
 					{{message}}
 				</div>
 			{% endfor %}
-
 			{% block body %}{% endblock %}
 		</div>
 
