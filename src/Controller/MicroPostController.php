@@ -57,19 +57,23 @@ class MicroPostController extends AbstractController
     }
 
     #[Route('/micro-post/{post}/edit', name: 'app_micro_post_edit')]
-    public function edit(MicroPost $post, Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
+    public function edit(MicroPost $post ,Request $request, MicroPostRepository $posts, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(MicroPostType::class, $post);
-        $form->handleRequest($request);
+        $form = $this->createFormBuilder($post)
+            ->add('title')
+            ->add('text')
+            ->getForm();
+        $form -> handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $post = $form->getData();
+            $post = $form -> getData();
             $entityManager->persist($post);
             $entityManager->flush();
 
             // Add a flash, Bu kısım mesaj döndürcek başarılı diye ve yalnızca bir sefer görüntülenir.
-            $this->addFlash('success', "Your micro post have been updated");
-            return $this->redirectToRoute('app_micro_post');
+            $this -> addFlash('success', "Your micro post have been updated");
+            return $this-> redirectToRoute('app_micro_post');
+
         }
 
         return $this->render(

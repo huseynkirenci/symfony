@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MicroPostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MicroPostRepository::class)]
 class MicroPost
@@ -15,6 +16,8 @@ class MicroPost
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 5, max: 255, minMessage: 'Title is to short, 5 charecters the minumum.')]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -22,6 +25,9 @@ class MicroPost
 
     // Yeni text alanı
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(min: 5, max: 500)]
+
     private ?string $text = null;
 
     public function getId(): ?int
