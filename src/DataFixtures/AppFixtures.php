@@ -2,15 +2,32 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\MicroPost;
 use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\User;
+use App\Entity\MicroPost;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(
+        private UserPasswordHasherInterface $userPasswordHasher
+    ) {
+    }
     public function load(ObjectManager $manager): void
     {
+        $user2 = new User();
+        $user2 -> setEmail('john@test.com');
+        $user2 -> setPassword(
+            $this -> userPasswordHasher -> hashPassword(
+            $user2,
+            '12345678'
+            )
+        );
+        $manager -> persist($user2);
+
+
         $microPost1 = new MicroPost();
         $microPost1->setTitle("Welcome to İstanbul!");
         $microPost1->setCreated(new DateTime());
