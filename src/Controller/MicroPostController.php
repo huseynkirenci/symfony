@@ -102,39 +102,30 @@ class MicroPostController extends AbstractController
     }
     #[Route('/micro-post/{post}/comment', name: 'app_micro_post_comment')]
     #[IsGranted('ROLE_COMMENTER')]
-    public function addComment(MicroPost $post, Request $request, CommentRepository $comments, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(
-            MicroPostType::class,
-            $post
-        );
-        $form->handleRequest($request);
+    public function addComment(MicroPost $post, Request $request, EntityManagerInterface $entityManager): Response
+{
+    $comment = new Comment();
+    $form = $this->createForm(CommentType::class, $comment);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $comment = $form->getData();
-            $comment -> setPost($post);
-            $comment -> setAuthor($this->getUser());
+    if ($form->isSubmitted() && $form->isValid()) {
+        $comment->setPost($post); // Yorum gönderiyle ilişkilendiriliyor
+        $comment->setAuthor($this->getUser()); // Yorum yazarı atanıyor
 
-            $entityManager->persist($comment);
-            $entityManager->flush();
+        $entityManager->persist($comment);
+        $entityManager->flush();
 
-            // Add a flash, Bu kısım mesaj döndürcek başarılı diye ve yalnızca bir sefer görüntülenir.
-            $this->addFlash(
-                'success',
-                'Your micro post have been updated.'
-            );
-            
-            return $this->redirectToRoute('app_micro_post_show',
-            ['post' => $post -> getId()]
-            );
-        }
+        // Başarı mesajı
+        $this->addFlash('success', 'Your comment has been added.');
 
-        return $this->render(
-            'micro_post/comment.html.twig',
-            [
-                'form' => $form,
-                'post' => $post
-            ]
-        );
+        return $this->redirectToRoute('app_micro_post_show', [
+            'post' => $post->getId(),
+        ]);
     }
+
+    return $this->render('micro_post/comment.html.twig', [
+        'form' => $form,
+        'post' => $post,
+    ]);
+}
 }
