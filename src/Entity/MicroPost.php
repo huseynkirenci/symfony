@@ -45,7 +45,7 @@ class MicroPost
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'liked')]
-    private Collection $likedbBy;
+    private Collection $likedBy; // İsimlendirme düzeltildi
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,7 +54,7 @@ class MicroPost
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->likedbBy = new ArrayCollection();
+        $this->likedBy = new ArrayCollection(); // İsimlendirme düzeltildi
         $this -> created = new DateTime;
 
     }
@@ -131,24 +131,22 @@ class MicroPost
     /**
      * @return Collection<int, User>
      */
-    public function getLikedbBy(): Collection
+    public function getLikedBy(): Collection // Getter metodu
     {
-        return $this->likedbBy;
+        return $this->likedBy;
     }
 
-    public function addLikedbBy(User $likedbBy): static
+    public function addLikedBy(User $likedBy): static // Ekleme metodu
     {
-        if (!$this->likedbBy->contains($likedbBy)) {
-            $this->likedbBy->add($likedbBy);
+        if (!$this->likedBy->contains($likedBy)) {
+            $this->likedBy->add($likedBy);
         }
-
         return $this;
     }
 
-    public function removeLikedbBy(User $likedbBy): static
+    public function removeLikedBy(User $likedBy): static // Çıkarma metodu
     {
-        $this->likedbBy->removeElement($likedbBy);
-
+        $this->likedBy->removeElement($likedBy);
         return $this;
     }
 

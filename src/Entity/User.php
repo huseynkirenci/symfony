@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, MicroPost>
      */
-    #[ORM\ManyToMany(targetEntity: MicroPost::class, mappedBy: 'likedbBy')]
+    #[ORM\ManyToMany(targetEntity: MicroPost::class, mappedBy: 'likedBy')]
     private Collection $liked;
 
     /**
@@ -170,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->liked->contains($liked)) {
             $this->liked->add($liked);
-            $liked->addLikedbBy($this);
+            $liked->addLikedBy($this);
         }
 
         return $this;
@@ -179,7 +179,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeLiked(MicroPost $liked): static
     {
         if ($this->liked->removeElement($liked)) {
-            $liked->removeLikedbBy($this);
+            $liked->removeLikedBy($this);
         }
 
         return $this;
