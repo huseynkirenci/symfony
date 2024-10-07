@@ -30,6 +30,28 @@ class MicroPostController extends AbstractController
         );
     }
 
+    #[Route('/micro-post/top-liked', name: 'app_micro_post_topliked')]
+    public function topLiked(MicroPostRepository $posts): Response
+    {
+        return $this->render(
+            'micro_post/top_liked.html.twig',
+            [
+                'posts' => $posts->findAllWithMinLikes(2),
+            ]
+        );
+    }
+
+    #[Route('/micro-post/follows', name: 'app_micro_post_follows')]
+    public function follows(MicroPostRepository $posts): Response
+    {
+        return $this->render(
+            'micro_post/follows.html.twig',
+            [
+                'posts' => $posts->findAllWithComments(),
+            ]
+        );
+    }
+
     #[Route('/micro-post/{post}', name: 'app_micro_post_show')]
     #[IsGranted(MicroPost::VIEW, 'post')]
     public function showOne(MicroPost $post): Response
@@ -103,29 +125,29 @@ class MicroPostController extends AbstractController
     #[Route('/micro-post/{post}/comment', name: 'app_micro_post_comment')]
     #[IsGranted('ROLE_COMMENTER')]
     public function addComment(MicroPost $post, Request $request, EntityManagerInterface $entityManager): Response
-{
-    $comment = new Comment();
-    $form = $this->createForm(CommentType::class, $comment);
-    $form->handleRequest($request);
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $comment->setPost($post); // Yorum gönderiyle ilişkilendiriliyor
-        $comment->setAuthor($this->getUser()); // Yorum yazarı atanıyor
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setPost($post); // Yorum gönderiyle ilişkilendiriliyor
+            $comment->setAuthor($this->getUser()); // Yorum yazarı atanıyor
 
-        $entityManager->persist($comment);
-        $entityManager->flush();
+            $entityManager->persist($comment);
+            $entityManager->flush();
 
-        // Başarı mesajı
-        $this->addFlash('success', 'Your comment has been added.');
+            // Başarı mesajı
+            $this->addFlash('success', 'Your comment has been added.');
 
-        return $this->redirectToRoute('app_micro_post_show', [
-            'post' => $post->getId(),
+            return $this->redirectToRoute('app_micro_post_show', [
+                'post' => $post->getId(),
+            ]);
+        }
+
+        return $this->render('micro_post/comment.html.twig', [
+            'form' => $form,
+            'post' => $post,
         ]);
     }
-
-    return $this->render('micro_post/comment.html.twig', [
-        'form' => $form,
-        'post' => $post,
-    ]);
-}
 }
