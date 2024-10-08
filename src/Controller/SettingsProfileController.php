@@ -93,6 +93,7 @@ class SettingsProfileController extends AbstractController
 
                 $profile = $user->getUserProfile() ?? new UserProfile();
                 $profile->setImage($newFileName);
+                $user->setUserProfile($profile);
                 $entityManager->persist($user);  // Bu işlem comment'i de otomatik olarak kaydeder
                 $entityManager->flush();
                 $this->addFlash('success', 'Your profile image was updated.');
