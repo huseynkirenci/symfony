@@ -51,11 +51,16 @@ class MicroPost
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private $extraPrivacy;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->likedBy = new ArrayCollection(); // İsimlendirme düzeltildi
         $this -> created = new DateTime;
+        $this->extraPrivacy = false;
+
 
     }
 
@@ -67,6 +72,17 @@ class MicroPost
     public function getTitle(): ?string
     {
         return $this->title;
+    }
+    public function isExtraPrivacy(): ?bool
+    {
+        return $this->extraPrivacy;
+    }
+
+    public function setExtraPrivacy(bool $extraPrivacy): self
+    {
+        $this->extraPrivacy = $extraPrivacy;
+
+        return $this;
     }
 
     public function setTitle(string $title): static
